@@ -2,6 +2,7 @@ package com.pionix.npuzzle_prototype;
 
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 public class DetectSwipeGestureListener extends GestureDetector.SimpleOnGestureListener {
 
@@ -93,6 +94,10 @@ public class DetectSwipeGestureListener extends GestureDetector.SimpleOnGestureL
             }
         }
 
+        if(this.activity.board.isSolved()) {
+            Toast toast = Toast.makeText(this.activity, "You win!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
 
         return true;
     }

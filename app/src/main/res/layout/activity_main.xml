@@ -31,6 +31,7 @@
     </LinearLayout>
 
     <GridLayout
+        android:animateLayoutChanges="true"
         android:id="@+id/gameLayout"
         android:layout_width="325dp"
         android:layout_height="325dp"
@@ -276,15 +277,15 @@
             android:textSize="20dp" />
     </GridLayout>
 
-    <Button
-        android:id="@+id/playAgainButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/gameName"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="13dp"
-        android:onClick="reset"
-        android:text="Play Again" />
+<!--    <Button-->
+<!--        android:id="@+id/playAgainButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/gameName"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginTop="13dp"-->
+<!--        android:onClick="reset"-->
+<!--        android:text="Play Again" />-->
 
     <LinearLayout
         android:id="@+id/gridSizeRowInputs"
@@ -296,11 +297,11 @@
 
         <Button
             android:id="@+id/incrementRowSize"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:onClick="incrementRowClick"
-            android:text="+"
-            android:padding="0dp"/>
+            android:padding="0dp"
+            android:text="+" />
 
         <TextView
             android:id="@+id/rowSizeText"
@@ -311,25 +312,16 @@
 
         <Button
             android:id="@+id/decrementRowSize"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:onClick="decrementRowClick"
-            android:text="-"
-            android:padding="0dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/gridSizeColInputs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/gridSizeRowInputs"
-        android:orientation="horizontal"
-        android:layout_centerHorizontal="true">
+            android:padding="0dp"
+            android:text="-" />
 
         <Button
             android:id="@+id/incrementColSize"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:onClick="incrementColClick"
             android:text="+"
             android:padding="0dp"/>
@@ -343,8 +335,8 @@
 
         <Button
             android:id="@+id/decrementColSize"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:onClick="decrementColClick"
             android:text="-"
             android:padding="0dp"/>
@@ -354,7 +346,7 @@
         android:id="@+id/boardInputs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/gridSizeColInputs"
+        android:layout_below="@id/gridSizeRowInputs"
         android:orientation="horizontal"
         android:layout_centerHorizontal="true">
 

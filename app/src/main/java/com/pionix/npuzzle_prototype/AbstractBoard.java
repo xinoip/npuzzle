@@ -3,6 +3,7 @@ package com.pionix.npuzzle_prototype;
 
 
 import java.io.*;
+import java.util.Random;
 import java.util.Scanner;
 
 public abstract class AbstractBoard {
@@ -206,6 +207,29 @@ public abstract class AbstractBoard {
         }
 
         return true;
+    }
+
+    public void shuffle(int n) {
+        Random rand = new Random();
+        int random = 0;
+        for(int i = 0; i < n; i++) {
+//            random = (int) Math.random() * 4;
+            random = rand.nextInt() % 4;
+            switch (random) {
+                case 0:
+                    move('U');
+                    break;
+                case 1:
+                    move('D');
+                    break;
+                case 2:
+                    move('L');
+                    break;
+                case 3:
+                    move('R');
+                    break;
+            }
+        }
     }
 
     public int NumberOfBoards() {

@@ -3,6 +3,7 @@ package com.pionix.npuzzle_prototype;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -25,19 +26,25 @@ public class MainActivity extends AppCompatActivity {
             TextView rowSizeText = findViewById(R.id.rowSizeText);
             rowSizeText.setText(String.valueOf(rowSize));
             board.setSize(rowSize, colSize);
+            resizeGrid(rowSize, colSize);
         }
+
+        resetToSolution();
     }
 
     public void decrementRowClick(View view) {
         int rowSize = board.getRowSize();
         int colSize = board.getColSize();
 
-        if(rowSize > 2) {
+        if(rowSize > 3) {
             rowSize--;
             TextView rowSizeText = findViewById(R.id.rowSizeText);
             rowSizeText.setText(String.valueOf(rowSize));
             board.setSize(rowSize, colSize);
+            resizeGrid(rowSize, colSize);
         }
+
+        resetToSolution();
     }
 
     public void incrementColClick(View view) {
@@ -49,19 +56,25 @@ public class MainActivity extends AppCompatActivity {
             TextView colSizeText = findViewById(R.id.colSizeText);
             colSizeText.setText(String.valueOf(colSize));
             board.setSize(rowSize, colSize);
+            resizeGrid(rowSize, colSize);
         }
+
+        resetToSolution();
     }
 
     public void decrementColClick(View view) {
         int rowSize = board.getRowSize();
         int colSize = board.getColSize();
 
-        if(colSize > 2) {
+        if(colSize > 3) {
             colSize--;
             TextView colSizeText = findViewById(R.id.colSizeText);
             colSizeText.setText(String.valueOf(colSize));
             board.setSize(rowSize, colSize);
+            resizeGrid(rowSize, colSize);
         }
+
+        resetToSolution();
     }
 
     public void updateDimensionsDisplay() {
@@ -89,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void shuffleBoard(View view) {
-        board.setCell(0,0,69);
+        board.shuffle(10);
         resetToSolution();
     }
 
@@ -115,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 int currentValue = board.cell(i, j);
 
                 if(currentValue == -1) {
-                    titleText.setText("__");
+                    titleText.setText("  ");
                 } else {
                     titleText.setText(String.valueOf(board.cell(i,j)));
                 }
@@ -131,10 +144,13 @@ public class MainActivity extends AppCompatActivity {
                     titleText.setText(String.valueOf(currentCorrect++));
                 }*/
 
+                titleText.setGravity(Gravity.CENTER);
+                titleText.setBackgroundColor(Color.RED);
                 boardLayout.addView(titleText, index);
                 index++;
 
                 GridLayout.LayoutParams param =new GridLayout.LayoutParams();
+
                 param.height = (int) dimsHeightOfText;
                 param.width = (int) dimsWidthOfText;
                 param.leftMargin = 5;
