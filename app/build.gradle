@@ -4,6 +4,9 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
+//        ndk {
+//            abiFilters 'armeabi-v7a', 'arm64-v8a'
+//        }
         applicationId "com.pionix.npuzzle_prototype"
         minSdkVersion 15
         targetSdkVersion 29
@@ -17,9 +20,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    aaptOptions {
+        noCompress "tflite"
+    }
 }
 
 dependencies {
+    implementation 'org.tensorflow:tensorflow-lite:+'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

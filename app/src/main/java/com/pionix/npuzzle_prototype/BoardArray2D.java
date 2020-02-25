@@ -45,4 +45,22 @@ public class BoardArray2D extends AbstractBoard {
         _colSize = col;
     }
 
+    public int[] toOneDimension() {
+        int[] rtr = new int[_rowSize * _colSize];
+
+        int index = 0;
+        for (int i = 0; i < _rowSize; i++) {
+            for (int j = 0; j < _colSize; j++) {
+                int currentValue = cell(i,j);
+                if(currentValue == -1) {
+                    currentValue = 0;
+                }
+                rtr[index] = currentValue;
+                index++;
+            }
+        }
+
+        return rtr;
+    }
+
 }

@@ -12,6 +12,8 @@ public abstract class AbstractBoard {
     protected char _lastMove;
     protected int _rowSize, _colSize;
 
+    public abstract int[] toOneDimension();
+
     public abstract int cell(int row, int col);
 
     public abstract void setCell(int row, int col, int val);

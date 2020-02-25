@@ -3,6 +3,7 @@ package com.pionix.npuzzle_prototype;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
 
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,10 +13,18 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.TextView;
+import org.tensorflow.lite.Interpreter;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+
 
 public class MainActivity extends AppCompatActivity {
 
     AbstractBoard board = new BoardArray2D();
+    Interpreter tflite;
 
     public void incrementRowClick(View view) {
         int rowSize = board.getRowSize();
@@ -169,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         View boardLayout = findViewById(R.id.gameLayout);
@@ -180,6 +190,21 @@ public class MainActivity extends AppCompatActivity {
 
         boardLayout.setOnTouchListener(touchListener);
 
+        try {
+            tflite = new Interpreter(loadModelFile());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    private MappedByteBuffer loadModelFile() throws IOException {
+        AssetFileDescriptor fileDescriptor = this.getAssets().openFd("npuzzlev1.tflite");
+        FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
+        FileChannel fileChannel = inputStream.getChannel();
+        long startOffSet = fileDescriptor.getStartOffset();
+        long declaredLength = fileDescriptor.getDeclaredLength();
+        return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffSet, declaredLength);
     }
 
     // This touch listener passes everything on to the gesture detector.
@@ -199,6 +224,47 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
+
+    public void hintBoard(View view) {
+        int[] boardOneDimension = board.toOneDimension();
+
+        float[][] nnInput = new float[1][boardOneDimension.length];
+        for(int i = 0; i < boardOneDimension.length; i++) {
+            double currValueScaled = (boardOneDimension[i] / 100.0);
+            nnInput[0][i] = (float)currValueScaled;
+        }
+
+        float[][] nnOutput = new float[1][4];
+
+        tflite.run(nnInput, nnOutput);
+
+        int moveIndex = 0;
+        float max = 0;
+        for(int i = 0; i < 4; i++) {
+            float curr = nnOutput[0][i];
+            if(curr > max) {
+                max = curr;
+                moveIndex = i;
+            }
+        }
+
+        switch (moveIndex) {
+            case 0:
+                board.move('U');
+                break;
+            case 1:
+                board.move('D');
+                break;
+            case 2:
+                board.move('L');
+                break;
+            case 3:
+                board.move('R');
+                break;
+        }
+
+        resetToSolution();
+    }
 
 
 }
