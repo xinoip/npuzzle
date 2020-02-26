@@ -199,7 +199,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private MappedByteBuffer loadModelFile() throws IOException {
-        AssetFileDescriptor fileDescriptor = this.getAssets().openFd("npuzzlev1.tflite");
+//        AssetFileDescriptor fileDescriptor = this.getAssets().openFd("npuzzlev1.tflite");
+        AssetFileDescriptor fileDescriptor = this.getAssets().openFd("np-3x3.tflite");
         FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
         FileChannel fileChannel = inputStream.getChannel();
         long startOffSet = fileDescriptor.getStartOffset();
